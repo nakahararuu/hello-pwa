@@ -1,72 +1,145 @@
-Welcome to the AWS CodeStar sample static HTML website
-==================================================
+# hello pwa
 
-This sample code helps get you started with a simple static HTML website
-deployed by AWS CodeDeploy and AWS CloudFormation to an Amazon EC2 instance.
+This project was generated with [ngX-Rocket](https://github.com/ngx-rocket/generator-ngx-rocket/)
+version 5.2.0
 
-What's Here
------------
+# Getting started
 
-This sample includes:
+1. Go to project folder and install dependencies:
 
-* README.md - this file
-* appspec.yml - this file is used by AWS CodeDeploy when deploying the website
-  to EC2
-* scripts/ - this directory contains scripts used by AWS CodeDeploy when
-  installing and deploying your website on the Amazon EC2 instance
-* webpage/ - this directory contains static web assets used by your website
-  * index.html - this file contains the sample website
-* template.yml - this file contains the description of AWS resources used by AWS
-  CloudFormation to deploy your infrastructure
+```sh
+npm install
+```
 
+2. Launch development server, and open `localhost:4200` in your browser:
 
-Getting Started
----------------
+```sh
+npm start
+```
 
-These directions assume you want to develop on your local computer, and not
-from the Amazon EC2 instance itself.
+# Project structure
 
-To work on the sample code, you'll need to clone your project's repository to your
-local computer. If you haven't, do that first. You can find instructions in the
-AWS CodeStar user guide.
+```
+dist/                        web app production build
+docs/                        project docs and coding guides
+e2e/                         end-to-end tests
+src/                         project source code
+|- app/                      app components
+|  |- core/                  core module (singleton services and single-use components)
+|  |- shared/                shared module  (common components, directives and pipes)
+|  |- app.component.*        app root component (shell)
+|  |- app.module.ts          app root module definition
+|  |- app-routing.module.ts  app routes
+|  +- ...                    additional modules and components
+|- assets/                   app assets (images, fonts, sounds...)
+|- environments/             values for various build environments
+|- theme/                    app global scss variables and theme
+|- translations/             translations files
+|- index.html                html entry point
+|- main.scss                 global style entry point
+|- main.ts                   app entry point
+|- polyfills.ts              polyfills needed by Angular
++- test.ts                   unit tests entry point
+reports/                     test and coverage reports
+proxy.conf.js                backend proxy configuration
+```
 
-1. Open `index.html` from your cloned repository in a web browser to view your website.
-   You can also view your website on the AWS CodeStar project dashboard under Application
-   endpoints.
+# Main tasks
 
-What Do I Do Next?
-------------------
+Task automation is based on [NPM scripts](https://docs.npmjs.com/misc/scripts).
 
-You can start making changes to the sample static HTML website. We suggest making a
-small change to /webpage/index.html first, so you can see how changes pushed to your
-project's repository are automatically picked up by your project pipeline and deployed
-to the Amazon EC2 instance. (You can watch the progress on your project dashboard.)
-Once you've seen how that works, start developing your own code, and have fun!
+| Task                                            | Description                                                                                                      |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `npm start`                                     | Run development server on `http://localhost:4200/`                                                               |
+| `npm run serve:sw`                              | Run test server on `http://localhost:4200/` with service worker enabled                                          |
+| `npm run build [-- --configuration=production]` | Lint code and build web app for production (with [AOT](https://angular.io/guide/aot-compiler)) in `dist/` folder |
+| `npm test`                                      | Run unit tests via [Karma](https://karma-runner.github.io) in watch mode                                         |
+| `npm run test:ci`                               | Lint code and run unit tests once for continuous integration                                                     |
+| `npm run e2e`                                   | Run e2e tests using [Protractor](http://www.protractortest.org)                                                  |
+| `npm run lint`                                  | Lint code                                                                                                        |
+| `npm run translations:extract`                  | Extract strings from code and templates to `src/app/translations/template.json`                                  |
+| `npm run docs`                                  | Display project documentation                                                                                    |
+| `npm run prettier`                              | Automatically format all `.ts`, `.js` & `.scss` files                                                            |
 
-Learn more about AWS CodeStar by reading the user guide.  Ask questions or make
-suggestions on our forum.
+When building the application, you can specify the target configuration using the additional flag
+`--configuration <name>` (do not forget to prepend `--` to pass arguments to npm scripts).
 
-User Guide: http://docs.aws.amazon.com/codestar/latest/userguide/welcome.html
+The default build configuration is `prod`.
 
-Forum: https://forums.aws.amazon.com/forum.jspa?forumID=248
+## Development server
 
-How Do I Add Template Resources to My Project?
-------------------
+Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change
+any of the source files.
+You should not use `ng serve` directly, as it does not use the backend proxy configuration by default.
 
-To add AWS resources to your project, you'll need to edit the `template.yml`
-file in your project's repository. You may also need to modify permissions for
-your project's worker roles. After you push the template change, AWS CodeStar
-and AWS CloudFormation provision the resources for you.
+## Code scaffolding
 
-See the AWS CodeStar user guide for instructions to modify your template:
-https://docs.aws.amazon.com/codestar/latest/userguide/how-to-change-project#customize-project-template.html
+Run `npm run generate -- component <name>` to generate a new component. You can also use
+`npm run generate -- directive|pipe|service|class|module`.
 
-What Should I Do Before Running My Project in Production?
-------------------
+If you have installed [angular-cli](https://github.com/angular/angular-cli) globally with `npm install -g @angular/cli`,
+you can also use the command `ng generate` directly.
 
-AWS recommends you review the security best practices recommended by the framework
-author of your selected sample application before running it in production. You
-should also regularly review and apply any available patches or associated security
-advisories for dependencies used within your application.
+## Additional tools
 
-Best Practices: https://docs.aws.amazon.com/codestar/latest/userguide/best-practices.html?icmpid=docs_acs_rm_sec
+Tasks are mostly based on the `angular-cli` tool. Use `ng help` to get more help or go check out the
+[Angular-CLI README](https://github.com/angular/angular-cli).
+
+## Code formatting
+
+All `.ts`, `.js` & `.scss` files in this project are formatted automatically using [Prettier](https://prettier.io),
+and enforced via the `test:ci` script.
+
+A pre-commit git hook has been configured on this project to automatically format staged files, using
+(pretty-quick)[https://github.com/azz/pretty-quick], so you don't have to care for it.
+
+You can also force code formatting by running the command `npm run prettier`.
+
+# What's in the box
+
+The app template is based on [HTML5](http://whatwg.org/html), [TypeScript](http://www.typescriptlang.org) and
+[Sass](http://sass-lang.com). The translation files use the common [JSON](http://www.json.org) format.
+
+#### Tools
+
+Development, build and quality processes are based on [angular-cli](https://github.com/angular/angular-cli) and
+[NPM scripts](https://docs.npmjs.com/misc/scripts), which includes:
+
+- Optimized build and bundling process with [Webpack](https://webpack.github.io)
+- [Development server](https://webpack.github.io/docs/webpack-dev-server.html) with backend proxy and live reload
+- Cross-browser CSS with [autoprefixer](https://github.com/postcss/autoprefixer) and
+  [browserslist](https://github.com/ai/browserslist)
+- Asset revisioning for [better cache management](https://webpack.github.io/docs/long-term-caching.html)
+- Unit tests using [Jasmine](http://jasmine.github.io) and [Karma](https://karma-runner.github.io)
+- End-to-end tests using [Protractor](https://github.com/angular/protractor)
+- Static code analysis: [TSLint](https://github.com/palantir/tslint), [Codelyzer](https://github.com/mgechev/codelyzer),
+  [Stylelint](http://stylelint.io) and [HTMLHint](http://htmlhint.com/)
+- Local knowledgebase server using [Hads](https://github.com/sinedied/hads)
+- Automatic code formatting with [Prettier](https://prettier.io)
+
+#### Libraries
+
+- [Angular](https://angular.io)
+- [Angular Material](https://material.angular.io)
+- [Angular Flex Layout](https://github.com/angular/flex-layout)
+- [Material Icons](https://material.io/icons/)
+- [RxJS](http://reactivex.io/rxjs)
+- [ngx-translate](https://github.com/ngx-translate/core)
+- [Lodash](https://lodash.com)
+
+#### Coding guides
+
+- [Angular](docs/coding-guides/angular.md)
+- [TypeScript](docs/coding-guides/typescript.md)
+- [Sass](docs/coding-guides/sass.md)
+- [HTML](docs/coding-guides/html.md)
+- [Unit tests](docs/coding-guides/unit-tests.md)
+- [End-to-end tests](docs/coding-guides/e2e-tests.md)
+
+#### Other documentation
+
+- [I18n guide](docs/i18n.md)
+- [Working behind a corporate proxy](docs/corporate-proxy.md)
+- [Updating dependencies and tools](docs/updating.md)
+- [Using a backend proxy for development](docs/backend-proxy.md)
+- [Browser routing](docs/routing.md)
