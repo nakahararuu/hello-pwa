@@ -1,3 +1,9 @@
 #!/bin/bash
 yum install -y nginx
-sed -i -e "s|/usr/share/nginx/html|/var/www|g" -e 's|^ \+location / {|&\n             try_files $uri /index.html;|' /etc/nginx/nginx.conf
+
+sed -i -e "s|/usr/share/nginx/html|/var/www|g" /etc/nginx/nginx.conf
+
+grep try_files /etc/nginx/nginx.conf
+if [ $? -eq 1 ]; then
+  sed -i -e 's|^ \+location / {|&\n             try_files $uri /index.html;|' /etc/nginx/nginx.conf
+fi
